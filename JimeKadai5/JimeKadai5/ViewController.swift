@@ -9,9 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var firstTextField: UITextField!
-    @IBOutlet weak var secondTextField: UITextField!
-    @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak private var firstTextField: UITextField!
+    @IBOutlet weak private var secondTextField: UITextField!
+    @IBOutlet weak private var resultLabel: UILabel!
 
     enum AlertContext {
         case invalidFirstValue, invalidSecondValue, dividedZero
@@ -19,9 +19,9 @@ class ViewController: UIViewController {
         var message: String {
             switch self {
             case .invalidFirstValue:
-                return "First input value is invalid."
+                return "The input value should be numeric, and empty is not allowed."
             case .invalidSecondValue:
-                return "Second input value is invalid"
+                return "The input value should be numeric, and empty is not allowed."
             case .dividedZero:
                 return "Can't divide by zero"
             }
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         keyboardConfig()
     }
 
-    @IBAction func calcurateButtonTapped(_ sender: UIButton) {
+    @IBAction private func calcurateButtonTapped(_ sender: UIButton) {
         guard let firstValue = firstTextField.text.map({ Double($0) }), !(firstValue == nil) else {
             showAlert(AlertContext.invalidFirstValue)
             return
@@ -62,8 +62,8 @@ class ViewController: UIViewController {
 
     private func showAlert(_ context: AlertContext) {
         let alert = UIAlertController(title: context.title, message: context.message, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default)
-        alert.addAction(ok)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
 
@@ -76,4 +76,3 @@ class ViewController: UIViewController {
         view.endEditing(true)
     }
 }
-

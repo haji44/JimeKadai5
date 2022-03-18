@@ -1,0 +1,6 @@
+framework module Pods_JimeKadai5 {
+  umbrella header "Pods-JimeKadai5-umbrella.h"
+
+  export *
+  module * { export * }
+}
