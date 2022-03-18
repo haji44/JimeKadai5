@@ -13,28 +13,36 @@ class ViewController: UIViewController {
     @IBOutlet weak private var secondTextField: UITextField!
     @IBOutlet weak private var resultLabel: UILabel!
 
+    enum MessageType: String {
+        case invalidValue = "The input value should be numeric, and empty is not allowed."
+        case divedZero = "Can't divide by zero"
+    }
+    enum InputType: String {
+        case first = "Check your first input"
+        case second = "Check your second input"
+    }
     enum AlertContext {
         case invalidFirstValue, invalidSecondValue, dividedZero
 
         var message: String {
             switch self {
             case .invalidFirstValue:
-                return "The input value should be numeric, and empty is not allowed."
+                return MessageType.invalidValue.rawValue
             case .invalidSecondValue:
-                return "The input value should be numeric, and empty is not allowed."
+                return MessageType.invalidValue.rawValue
             case .dividedZero:
-                return "Can't divide by zero"
+                return MessageType.divedZero.rawValue
             }
         }
 
         var title: String {
             switch self {
             case .invalidFirstValue:
-                return "Check your first input"
+                return InputType.first.rawValue
             case .invalidSecondValue:
-                return "Check your second input"
+                return InputType.second.rawValue
             case .dividedZero:
-                return "Check your second input"
+                return InputType.second.rawValue
             }
         }
     }
