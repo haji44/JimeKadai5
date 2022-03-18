@@ -78,6 +78,7 @@ class ViewController: UIViewController {
     private func keyboardConfig() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         view.addGestureRecognizer(tapGesture)
+        [firstTextField, secondTextField].forEach { $0?.keyboardType = .numberPad }
     }
 
     @objc private func didTapView() {
