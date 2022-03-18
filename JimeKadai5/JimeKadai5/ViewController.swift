@@ -30,11 +30,11 @@ class ViewController: UIViewController {
         var title: String {
             switch self {
             case .invalidFirstValue:
-                return ""
+                return "Check your first input"
             case .invalidSecondValue:
-                return ""
+                return "Check your second input"
             case .dividedZero:
-                return ""
+                return "Check your second input"
             }
         }
     }
