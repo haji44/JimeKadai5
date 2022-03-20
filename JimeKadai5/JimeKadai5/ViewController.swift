@@ -13,72 +13,48 @@ class ViewController: UIViewController {
     @IBOutlet weak private var secondTextField: UITextField!
     @IBOutlet weak private var resultLabel: UILabel!
 
-    enum MessageType: String {
-        case invalidValue = "The input value should be numeric, and empty is not allowed."
-        case divedZero = "Can't divide by zero"
-    }
-    enum InputType: String {
-        case first = "Check your first input"
-        case second = "Check your second input"
-    }
-    enum AlertContext {
-        case invalidFirstValue, invalidSecondValue, dividedZero
-
-        var message: String {
-            switch self {
-            case .invalidFirstValue:
-                return MessageType.invalidValue.rawValue
-            case .invalidSecondValue:
-                return MessageType.invalidValue.rawValue
-            case .dividedZero:
-                return MessageType.divedZero.rawValue
-            }
-        }
-
-        var title: String {
-            switch self {
-            case .invalidFirstValue:
-                return InputType.first.rawValue
-            case .invalidSecondValue:
-                return InputType.second.rawValue
-            case .dividedZero:
-                return InputType.second.rawValue
-            }
-        }
+    private enum AlertMessage {
+        static let invalidFirstValue = "割られる数を入力して下さい"
+        static let invalidSecondValue = "割る数を入力して下さい"
+        static let dividedZero = "割る数には0を入力しないで下さい"
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        keyboardConfig()
+        setupKeyboardType()
+        setupTapGesture()
     }
 
     @IBAction private func calcurateButtonTapped(_ sender: UIButton) {
-        guard let firstValue = firstTextField.text.map({ Double($0) }), !(firstValue == nil) else {
-            showAlert(AlertContext.invalidFirstValue)
+        guard let firstValue = firstTextField.text.flatMap({ Double($0) }) else {
+            showAlert(message: AlertMessage.invalidFirstValue)
             return
         }
-        guard let secondValue = secondTextField.text.map({ Double($0) }), !(secondValue == nil) else {
-            showAlert(AlertContext.invalidSecondValue)
+        guard let secondValue = secondTextField.text.flatMap({ Double($0) }) else {
+            showAlert(message: AlertMessage.invalidSecondValue)
             return
         }
-        if secondValue == 0 {
-            showAlert(AlertContext.dividedZero)
+        guard secondValue != 0 else {
+            showAlert(message: AlertMessage.dividedZero)
             return
         }
-        resultLabel.text = String(firstValue! / secondValue!)
+        resultLabel.text = String(firstValue / secondValue)
     }
 
-    private func showAlert(_ context: AlertContext) {
-        let alert = UIAlertController(title: context.title, message: context.message, preferredStyle: .alert)
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "課題5", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
     }
 
-    private func keyboardConfig() {
+    private func setupKeyboardType() {
+        [firstTextField, secondTextField].forEach { $0?.keyboardType = .numberPad }
+    }
+
+    private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         view.addGestureRecognizer(tapGesture)
-        [firstTextField, secondTextField].forEach { $0?.keyboardType = .numberPad }
     }
 
     @objc private func didTapView() {
