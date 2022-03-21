@@ -6,39 +6,89 @@
 //
 
 import UIKit
+import Combine
+import CombineCocoa
+
+private enum AlertMessage: Error {
+//        case invalidFirstValue, invalidSecondValue, dividedZero
+    static let invalidFirstValue = "割られる数を入力して下さい"
+    static let invalidSecondValue = "割る数を入力して下さい"
+    static let dividedZero = "割る数には0を入力しないで下さい"
+}
 
 class ViewController: UIViewController {
-
     @IBOutlet weak private var firstTextField: UITextField!
     @IBOutlet weak private var secondTextField: UITextField!
     @IBOutlet weak private var resultLabel: UILabel!
+    @IBOutlet weak private var calcButton: UIButton!
 
-    private enum AlertMessage {
-        static let invalidFirstValue = "割られる数を入力して下さい"
-        static let invalidSecondValue = "割る数を入力して下さい"
-        static let dividedZero = "割る数には0を入力しないで下さい"
+    private var subscription = Set<AnyCancellable>()
+    let firstSub = PassthroughSubject<Double?, Never>()
+    let secondSub = PassthroughSubject<Double?, Never>()
+    var isValid: AnyPublisher<Bool, Never> {
+        firstSub.combineLatest(secondSub) {numerator, denominator in
+            guard numerator != nil, denominator != nil, denominator  != 0 else {
+                print("button disable")
+                return false
+            }
+            print("button valid")
+            return true
+        }
+        .eraseToAnyPublisher()
+    }
+    var text: AnyPublisher<String?, Never> {
+        firstSub.combineLatest(secondSub) { numerator, denominator in
+            guard numerator != nil else {
+                return AlertMessage.invalidFirstValue
+            }
+            guard denominator != nil else {
+                return AlertMessage.invalidSecondValue
+            }
+            guard denominator != 0 else {
+                return AlertMessage.dividedZero
+            }
+            return nil
+        }
+        .eraseToAnyPublisher()
+    }
+    var result: AnyPublisher<Double, Never> {
+        firstSub.combineLatest(secondSub) { numerator, denominator in
+            guard let numerator = numerator, let denominator = denominator else { return 0}
+            return numerator / denominator
+        }
+        .eraseToAnyPublisher()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        calcButton.isEnabled = false
         setupKeyboardType()
         setupTapGesture()
+        setupBinds()
     }
 
-    @IBAction private func calcurateButtonTapped(_ sender: UIButton) {
-        guard let firstValue = firstTextField.text.flatMap({ Double($0) }) else {
-            showAlert(message: AlertMessage.invalidFirstValue)
-            return
+    private func setupBinds() {
+        firstTextField.textPublisher.map { value in
+            guard let value = value.flatMap({Double($0)}) else { return nil }
+            return value
         }
-        guard let secondValue = secondTextField.text.flatMap({ Double($0) }) else {
-            showAlert(message: AlertMessage.invalidSecondValue)
-            return
+        .sink { self.firstSub.send($0) }
+        .store(in: &subscription)
+
+        secondTextField.textPublisher.map { value in
+            guard let value = value.flatMap({Double($0)}) else { return nil }
+            return value
         }
-        guard secondValue != 0 else {
-            showAlert(message: AlertMessage.dividedZero)
-            return
-        }
-        resultLabel.text = String(firstValue / secondValue)
+        .sink { self.secondSub.send($0) }
+        .store(in: &subscription)
+
+        isValid.assign(to: \.isEnabled, on: calcButton).store(in: &subscription)
+
+        calcButton.tapPublisher.map { _ in Date() }.combineLatest(result)
+            .removeDuplicates(by: { $0.0 == $1.0 })
+            .map { String($0.1) }
+            .assign(to: \.text, on: resultLabel)
+            .store(in: &subscription)
     }
 
     private func showAlert(message: String) {

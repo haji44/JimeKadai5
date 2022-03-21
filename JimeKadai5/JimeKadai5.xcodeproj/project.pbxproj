@@ -13,6 +13,7 @@
 		20019AB427E478FE00048A2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20019AB227E478FE00048A2F /* Main.storyboard */; };
 		20019AB627E4790000048A2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20019AB527E4790000048A2F /* Assets.xcassets */; };
 		20019AB927E4790000048A2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20019AB727E4790000048A2F /* LaunchScreen.storyboard */; };
+		20BF3D1327E74A6C002070C8 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 20BF3D1227E74A6C002070C8 /* CombineCocoa */; };
 		979AEBFE0AAB64376ED34839 /* Pods_JimeKadai5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 866A4A851D789C7647197311 /* Pods_JimeKadai5.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20BF3D1327E74A6C002070C8 /* CombineCocoa in Frameworks */,
 				979AEBFE0AAB64376ED34839 /* Pods_JimeKadai5.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,6 +111,9 @@
 			dependencies = (
 			);
 			name = JimeKadai5;
+			packageProductDependencies = (
+				20BF3D1227E74A6C002070C8 /* CombineCocoa */,
+			);
 			productName = JimeKadai5;
 			productReference = 20019AA927E478FE00048A2F /* JimeKadai5.app */;
 			productType = "com.apple.product-type.application";
@@ -137,6 +142,9 @@
 				Base,
 			);
 			mainGroup = 20019AA027E478FE00048A2F;
+			packageReferences = (
+				20BF3D1127E74A6C002070C8 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+			);
 			productRefGroup = 20019AAA27E478FE00048A2F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -428,6 +436,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		20BF3D1127E74A6C002070C8 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		20BF3D1227E74A6C002070C8 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20BF3D1127E74A6C002070C8 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 20019AA127E478FE00048A2F /* Project object */;
 }
