@@ -36,21 +36,6 @@ class ViewController: UIViewController {
         }
         .eraseToAnyPublisher()
     }
-    var text: AnyPublisher<String?, Never> {
-        firstSub.combineLatest(secondSub) { numerator, denominator in
-            guard numerator != nil else {
-                return AlertMessage.invalidFirstValue
-            }
-            guard denominator != nil else {
-                return AlertMessage.invalidSecondValue
-            }
-            guard denominator != 0 else {
-                return AlertMessage.dividedZero
-            }
-            return nil
-        }
-        .eraseToAnyPublisher()
-    }
     var result: AnyPublisher<Double, Never> {
         firstSub.combineLatest(secondSub) { numerator, denominator in
             guard let numerator = numerator, let denominator = denominator else { return 0}
