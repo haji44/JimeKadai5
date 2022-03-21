@@ -24,9 +24,6 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="計算"/>
-                                <connections>
-                                    <action selector="calcurateButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dcx-HF-MGt"/>
-                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="J7b-fH-x2r">
                                 <rect key="frame" x="95" y="144" width="224.5" height="34"/>
@@ -47,7 +44,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EPG-pm-oSc">
-                                        <rect key="frame" x="123" y="0.0" width="102" height="34"/>
+                                        <rect key="frame" x="122.5" y="0.0" width="102" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
@@ -58,7 +55,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Result" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VVa-sK-Zku">
-                                <rect key="frame" x="183" y="292" width="48" height="20"/>
+                                <rect key="frame" x="183.5" y="292" width="47.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -76,6 +73,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="calcButton" destination="YUl-aW-2bx" id="Rb7-Cl-oyG"/>
                         <outlet property="firstTextField" destination="ytn-9G-sJF" id="EiU-eO-JNO"/>
                         <outlet property="resultLabel" destination="VVa-sK-Zku" id="me2-xJ-4sm"/>
                         <outlet property="secondTextField" destination="EPG-pm-oSc" id="x7r-ju-fcJ"/>
